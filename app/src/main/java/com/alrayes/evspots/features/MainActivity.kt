@@ -1,13 +1,11 @@
 package com.alrayes.evspots.features
 
-import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
+
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.alrayes.evspots.R
-import com.alrayes.evspots.base.BaseApplication
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -19,12 +17,14 @@ class MainActivity : AppCompatActivity() {
 
  */
 
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel.fetchNearbySpots()
 
-
-       // Log.d(TAG, "onCreate :${someRandomeString}")
+        // Log.d(TAG, "onCreate :${someRandomeString}")
         //Log.d(TAG, "onCreate :${app}")
     }
 }

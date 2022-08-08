@@ -24,7 +24,6 @@ object AppModule {
     @Provides
     fun provideRandomString(): String {
         return "Hey look a random String !!"
-
     }
 
 }
