@@ -13,10 +13,10 @@ class NearbyDataRepository @Inject constructor(
 
     override suspend fun getNearby(request: NearbyRequest): List<Nearby> {
         return nearbyService.getNearby(
-            request.location,
-            request.radius,
-            request.type,
-            request.key
-        ).results.map { it.toDomain() }
+            key = "6b716559-a930-4edf-a8e2-e679f2a71492",
+            latitude = request.latitude,
+            longitude = request.longitude,
+            maxResults = request.maxResults
+        ).map { it.toDomain() }
     }
 }

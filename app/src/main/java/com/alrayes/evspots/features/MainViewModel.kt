@@ -29,10 +29,10 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     fun fetchNearbySpots() {
         val API_KEY = "USE_VALID_API"
-        val request = NearbyRequestView("-33.8670522%2C151.1957362", 1500, "restaurant" , API_KEY)
+        val request = NearbyRequestView(maxResults = 10 )
         viewModelScope.launch(Dispatchers.IO) {
             getNearby.execute(request.toDomain()).collect { spots ->
-                _nearbySpots.value = spots.map { it.toView() }
+                spots.map { it.toView() }.also { _nearbySpots.value = it }
             }
         }
 

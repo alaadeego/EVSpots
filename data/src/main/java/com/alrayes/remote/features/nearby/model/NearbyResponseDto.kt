@@ -4,8 +4,7 @@ package com.alrayes.remote.features.nearby.model
 import com.google.gson.annotations.SerializedName
 
 data class NearbyResponseDto(
-    @SerializedName("results")
+    @SerializedName("Example Results")
     val results: List<NearbyDto>,
-    @SerializedName("status")
-    val status: String?
 )
+

@@ -3,14 +3,14 @@ package com.alrayes.evspots.features.model
 import com.alrayes.domain.features.nearby.model.NearbyRequest
 
 data class NearbyRequestView(
-    val location: String, val radius: Int,
-    val type: String, val key: String
+    val latitude: Double?= null ,
+    val longitude: Double?= null ,
+    val maxResults: Int
 )
 
 fun NearbyRequestView.toDomain() =
     NearbyRequest(
-        location = this.location,
-        radius = this.radius,
-        type = this.type,
-        key = this.key
+        latitude = this.latitude,
+        longitude = this.longitude,
+        maxResults = this.maxResults,
     )
