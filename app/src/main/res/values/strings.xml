@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EVSpots</string>
+    <string name="title">Title:</string>
+    <string name="address_line">Address line:</string>
 </resources>

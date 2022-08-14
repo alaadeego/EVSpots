@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
         val request = NearbyRequestView(maxResults = 10 )
         viewModelScope.launch(Dispatchers.IO) {
             getNearby.execute(request.toDomain()).collect { spots ->
-                spots.map { it.toView() }.also { _nearbySpots.value = it }
+                _nearbySpots.value =  spots.map { it.toView() }
             }
         }
 

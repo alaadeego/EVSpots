@@ -10,14 +10,25 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.alrayes.evspots.R
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import com.alrayes.evspots.databinding.ActivityMainBinding
+import com.alrayes.evspots.features.adapter.SpotsAdapter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val spotsAdapter = SpotsAdapter()
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+
 
     private val viewModel: MainViewModel by viewModels()
     private val locationPermissionRequest = registerForActivityResult(
@@ -43,7 +54,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initUi()
+        initObservers()
         viewModel.fetchNearbySpots()
 
         if (hasLocationPermission()) {
@@ -51,6 +65,23 @@ class MainActivity : AppCompatActivity() {
         } else
             requestLocationPermission()
 
+
+    }
+
+    private fun initUi() {
+        binding.mainRecyclerview.apply {
+            adapter = spotsAdapter
+        }
+    }
+
+    private fun initObservers() {
+        viewModel.nearbySpots
+            .flowWithLifecycle(lifecycle, Lifecycle.State.CREATED)
+            .filterNotNull()
+            .onEach { nearbySports ->
+                spotsAdapter.setItems(nearbySports)
+                Log.wtf("SpotsResults", "${nearbySports}")
+            }.launchIn(lifecycleScope)
 
     }
 
