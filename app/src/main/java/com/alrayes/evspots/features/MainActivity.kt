@@ -9,7 +9,6 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.alrayes.evspots.R
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 // Got last known location. In some rare situations this can be null.
-                Log.wtf("location"," lat: ${location?.latitude}   log ${location?.longitude} " )
+                Log.wtf("location", " lat: ${location?.latitude}   log ${location?.longitude} ")
 
             }
     }
@@ -78,14 +77,11 @@ class MainActivity : AppCompatActivity() {
         Log.wtf("hasStoragePermission", "false")
 
         if (!hasLocationPermission()) {
-            val permissions = arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-            ActivityCompat.requestPermissions(
-                this,
-                permissions,
-                Companion.REQUEST_Location_PERMISSION
+            locationPermissionRequest.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
             )
         }
     }
@@ -99,7 +95,4 @@ class MainActivity : AppCompatActivity() {
     ) == PackageManager.PERMISSION_GRANTED
 
 
-    companion object {
-        const val REQUEST_Location_PERMISSION = 1
-    }
 }
